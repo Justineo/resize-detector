@@ -1,0 +1,28 @@
+.resize-triggers {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.resize-triggers,
+.resize-expand-trigger,
+.resize-contract-trigger,
+.resize-contract-trigger:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.resize-expand-trigger,
+.resize-contract-trigger {
+  background: #eee;
+  overflow: auto;
+}
+
+.resize-contract-trigger:before {
+  width: 200%;
+  height: 200%;
+}
