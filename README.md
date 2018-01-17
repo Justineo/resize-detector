@@ -1,6 +1,40 @@
 # Resize Listener
 
-### developit/simple-element-resize-detector
+This project is basically a modified version of sdecima/javascript-detect-element-resize, which includes these changes:
+
+* Try to utilize native `ResizeObserver` first.
+* Use ES Modules.
+* Put most CSS content inside a separate `.css` file.
+* Drop support for IE8 and below.
+* Make the project available from npm.
+
+## Installation
+
+```bash
+$ npm i --save resize-listener
+```
+
+## Usage
+
+```js
+import resizeListener from 'resize-listener'
+
+// adding listener
+resizeListener.add(elem, callback)
+
+// removing listener
+resizeListener.remove(elem, callback)
+```
+
+*`this` inside `callback` function is the element whose size has been changed.*
+
+## Limitations and caveats
+
+See [sdecimajavascript-detect-element-resize](#sdecimajavascript-detect-element-resize).
+
+## Compare to other projects
+
+### [developit/simple-element-resize-detector](//github.com/developit/simple-element-resize-detector)
 
 - **Is polyfill**
 
@@ -29,7 +63,7 @@
   * Inapplicable for void elements.
   * Cannot track detach/attach or visibility change.
 
-### que-etc/resize-observer-polyfill
+### [que-etc/resize-observer-polyfill](//github.com/que-etc/resize-observer-polyfill)
 
 - **Is polyfill**
 
@@ -45,6 +79,7 @@
 
 - **Pros**
 
+  * Small size.
   * Minimal side effects on target elements.
   * Can track detach/attach or visibility change as soon as it's triggered by DOM mutation.
 
@@ -53,7 +88,7 @@
   * Need extra transition event handling to catch size change from user interaction pseudo classes like `:hover`.
   * Delayed transitions will receive only one notification with the latest dimensions of an element.
 
-### pelotoncycle/resize-observer
+### [pelotoncycle/resize-observer](//github.com/pelotoncycle/resize-observer)
 
 - **Is polyfill?**
 
@@ -75,7 +110,7 @@
 
   * Might be not so performant by checking rendered metrics on each animation frame.
 
-### wnr/element-resize-detector
+### [wnr/element-resize-detector](//github.com/wnr/element-resize-detector)
 
 - **Is polyfill?**
 
@@ -103,7 +138,7 @@
   * Inapplicable for void elements.
   * Cannot track detach/attach or visibility change.
 
-### sdecima/javascript-detect-element-resize
+### [sdecima/javascript-detect-element-resize](//github.com/sdecima/javascript-detect-element-resize)
 
 - **Is polyfill?**
 
@@ -119,6 +154,7 @@
 
 - **Pros**
 
+  * Small size.
   * Higher performance comparing to hidden `<object>`s.
   * Compatible with down to IE7.
 
@@ -130,5 +166,3 @@
 - **Limitations**
 
   * Cannot track detach/attach or visibility change on IE10 and below.
-
-
