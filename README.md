@@ -1,12 +1,12 @@
 # Resize Detector
 
-This project is basically a modified version of sdecima/javascript-detect-element-resize, which includes these changes:
+This project is basically a modified version of [sdecima/javascript-detect-element-resize](#sdecimajavascript-detect-element-resize) including these changes:
 
 * Try to utilize native `ResizeObserver` first.
 * Use ES Modules.
 * Put most CSS content inside a separate `.css` file.
 * Drop support for IE8 and below.
-* Make the project available from npm.
+* Make the package available from npm.
 
 ## Installation
 
@@ -32,7 +32,61 @@ resizeDetector.removeListener(elem, callback)
 
 See [sdecimajavascript-detect-element-resize](#sdecimajavascript-detect-element-resize).
 
-## Compare to other projects
+## Comparison with other projects
+
+### [sdecima/javascript-detect-element-resize](//github.com/sdecima/javascript-detect-element-resize)
+
+- **Is polyfill?**
+
+  No.
+
+- **Native first**
+
+  No.
+
+- **Strategy**
+
+  Scroll-based.
+
+- **Pros**
+
+  * Small size.
+  * Higher performance comparing to hidden `<object>`s.
+  * Compatible with down to IE7.
+
+- **Side effects**
+
+  * Targets with `position: static` will become `position: relative`.
+  * Several hidden elements will be injected into the target elements.
+
+- **Limitations**
+
+  * Cannot track detach/attach or visibility change on IE10 and below.
+
+### [que-etc/resize-observer-polyfill](//github.com/que-etc/resize-observer-polyfill)
+
+- **Is polyfill**
+
+  Yes.
+
+- **Native first**
+
+  Yes.
+
+- **Fallback Strategy**
+
+  Use `MutationObserver` to observe every mutation in a document. For IE9/10, use Mutation Events instead.
+
+- **Pros**
+
+  * Small size.
+  * Minimal side effects on target elements.
+  * Can track detach/attach or visibility change as soon as it's triggered by DOM mutation.
+
+- **Limitations**
+
+  * Need extra transition event handling to catch size change from user interaction pseudo classes like `:hover`.
+  * Delayed transitions will receive only one notification with the latest dimensions of an element.
 
 ### [developit/simple-element-resize-detector](//github.com/developit/simple-element-resize-detector)
 
@@ -63,31 +117,6 @@ See [sdecimajavascript-detect-element-resize](#sdecimajavascript-detect-element-
   * Inapplicable for void elements.
   * Cannot track detach/attach or visibility change.
 
-### [que-etc/resize-observer-polyfill](//github.com/que-etc/resize-observer-polyfill)
-
-- **Is polyfill**
-
-  No.
-
-- **Native first**
-
-  Yes.
-
-- **Fallback Strategy**
-
-  Use `MutationObserver` to observe every mutation in a document. For IE9/10, use Mutation Events instead.
-
-- **Pros**
-
-  * Small size.
-  * Minimal side effects on target elements.
-  * Can track detach/attach or visibility change as soon as it's triggered by DOM mutation.
-
-- **Limitations**
-
-  * Need extra transition event handling to catch size change from user interaction pseudo classes like `:hover`.
-  * Delayed transitions will receive only one notification with the latest dimensions of an element.
-
 ### [pelotoncycle/resize-observer](//github.com/pelotoncycle/resize-observer)
 
 - **Is polyfill?**
@@ -100,7 +129,7 @@ See [sdecimajavascript-detect-element-resize](#sdecimajavascript-detect-element-
 
 - **Fallback Strategy**
 
-  Long polling using `requestAnimationFrame` or `setTimeout`.
+  Long polling through `requestAnimationFrame` or `setTimeout`.
 
 - **Pros**
 
@@ -108,7 +137,7 @@ See [sdecimajavascript-detect-element-resize](#sdecimajavascript-detect-element-
 
 - **Side effects**
 
-  * Might be not so performant by checking rendered metrics on each animation frame.
+  * Might be not so performant by checking rendered sizes in each animation frame.
 
 ### [wnr/element-resize-detector](//github.com/wnr/element-resize-detector)
 
@@ -135,34 +164,6 @@ See [sdecimajavascript-detect-element-resize](#sdecimajavascript-detect-element-
 
 - **Limitations**
 
+  * Package size is relatively large.
   * Inapplicable for void elements.
   * Cannot track detach/attach or visibility change.
-
-### [sdecima/javascript-detect-element-resize](//github.com/sdecima/javascript-detect-element-resize)
-
-- **Is polyfill?**
-
-  No.
-
-- **Native first**
-
-  No.
-
-- **Strategy**
-
-  Scroll-based.
-
-- **Pros**
-
-  * Small size.
-  * Higher performance comparing to hidden `<object>`s.
-  * Compatible with down to IE7.
-
-- **Side effects**
-
-  * Targets with `position: static` will become `position: relative`.
-  * Several hidden elements will be injected into the target elements.
-
-- **Limitations**
-
-  * Cannot track detach/attach or visibility change on IE10 and below.
