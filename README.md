@@ -1,4 +1,4 @@
-# Resize Listener
+# Resize Detector
 
 This project is basically a modified version of sdecima/javascript-detect-element-resize, which includes these changes:
 
@@ -11,19 +11,19 @@ This project is basically a modified version of sdecima/javascript-detect-elemen
 ## Installation
 
 ```bash
-$ npm i --save resize-listener
+$ npm i --save resize-detector
 ```
 
 ## Usage
 
 ```js
-import resizeListener from 'resize-listener'
+import resizeDetector from 'resize-detector'
 
 // adding listener
-resizeListener.add(elem, callback)
+resizeDetector.addListener(elem, callback)
 
 // removing listener
-resizeListener.remove(elem, callback)
+resizeDetector.removeListener(elem, callback)
 ```
 
 *`this` inside `callback` function is the element whose size has been changed.*

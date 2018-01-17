@@ -1,10 +1,11 @@
 {
-  "name": "resize-listener",
+  "name": "resize-detector",
   "version": "0.0.1",
   "description": "Element resize detection, both modern way and cross browser.",
   "main": "dist/index.js",
   "scripts": {
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "prepare": "npm run build"
   },
   "keywords": [
     "element",

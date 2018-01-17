@@ -12,7 +12,7 @@ let total = 0
 let style = null
 const ANIM_NAME = 'resize-attach'
 
-export function add (elem, callback) {
+export function addListener (elem, callback) {
   if (elem.attachEvent) {
     elem.attachEvent('onresize', callback)
     return
@@ -42,7 +42,7 @@ export function add (elem, callback) {
   total++
 }
 
-export function remove (elem, callback) {
+export function removeListener (elem, callback) {
   if (elem.detachEvent) {
     elem.detachEvent('onresize', callback)
     return
