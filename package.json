@@ -1,6 +1,6 @@
 {
   "name": "resize-detector",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "description": "Element resize detection, both modern way and cross browser.",
   "main": "dist/index.js",
   "scripts": {

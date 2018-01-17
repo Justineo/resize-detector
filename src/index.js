@@ -59,10 +59,11 @@ export function removeListener (elem, callback) {
       elem.removeEventListener('scroll', callback)
       elem.removeChild(elem.__resize_triggers__.triggers)
       elem.__resize_triggers__ = null
+      elem.__resize_listeners__ = null
     }
   }
 
-  if (!--total) {
+  if (!--total && style) {
     style.parentNode.removeChild(style)
   }
 }
