@@ -29,43 +29,6 @@ export function cancelAnimationFrame (id) {
   caf(id)
 }
 
-const ANIM_PROP_PREFIXES = ['Webkit', 'Moz', 'O', 'ms']
-const ANIM_START_EVENTS = [
-  'webkitAnimationStart',
-  'animationstart',
-  'oAnimationStart',
-  'MSAnimationStart'
-]
-
-let animation = null
-export function getAnimation () {
-  if (!animation) {
-    let el = document.createElement('div')
-    if (el.style.animation !== undefined) {
-      animation = {
-        property: 'animation',
-        startEvent: 'animationstart',
-        keyframes: 'keyframes'
-      }
-      return animation
-    }
-
-    ANIM_PROP_PREFIXES.some((prefix, i) => {
-      let property = `${prefix}Animation`
-      if (el.style[property] !== undefined) {
-        animation = {
-          property,
-          startEvent: ANIM_START_EVENTS[i],
-          keyframes: `-${prefix.toLowerCase()}-keyframes`
-        }
-        return true
-      }
-    })
-
-    return animation
-  }
-}
-
 export function createStyles (styleText) {
   var style = document.createElement('style')
   style.type = 'text/css'
@@ -85,4 +48,29 @@ export function createElement (tagName, props = {}) {
     elem[key] = props[key]
   })
   return elem
+}
+
+export function getRenderInfo (elem) {
+  if (!document.documentElement.contains(elem)) {
+    return {
+      detached: true,
+      rendered: false
+    }
+  }
+
+  let current = elem
+  while (current !== document) {
+    if (getComputedStyle(current).display === 'none') {
+      return {
+        detached: false,
+        rendered: false
+      }
+    }
+    current = current.parentNode
+  }
+
+  return {
+    detached: false,
+    rendered: true
+  }
 }

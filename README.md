@@ -3,6 +3,7 @@
 This project is basically a modified version of [sdecima/javascript-detect-element-resize](#sdecimajavascript-detect-element-resize) including these changes:
 
 * Try to utilize native `ResizeObserver` first.
+* Adopt Mutation-based approach to track detaching/attaching in both DOM trees and render trees (see [que-etc/resize-observer-polyfill](//github.com/que-etc/resize-observer-polyfill)).
 * Use ES Modules.
 * Put most CSS content inside a separate `.css` file.
 * Drop support for IE8 and below.
@@ -30,7 +31,27 @@ resizeDetector.removeListener(elem, callback)
 
 ## Limitations and caveats
 
-See [sdecima/javascript-detect-element-resize](#sdecimajavascript-detect-element-resize).
+- **Is polyfill?**
+
+  No.
+
+- **Native first**
+
+  Yes.
+
+- **Strategy**
+
+  Scroll-based + Mutation-based.
+
+- **Pros**
+
+  * Small size.
+  * Minimal limitations.
+
+- **Side effects**
+
+  * Targets with `position: static` will become `position: relative`.
+  * Several hidden elements will be injected into the target elements.
 
 ## Comparison with other projects
 
@@ -81,7 +102,7 @@ See [sdecima/javascript-detect-element-resize](#sdecimajavascript-detect-element
 
   * Small size.
   * Minimal side effects on target elements.
-  * Can track detach/attach or visibility change as soon as it's triggered by DOM mutation.
+  * Can track detaching/attaching in both DOM trees and render trees as soon as it's triggered by DOM mutation.
 
 - **Limitations**
 

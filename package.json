@@ -1,8 +1,9 @@
 {
   "name": "resize-detector",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "description": "Element resize detection, both modern way and cross browser.",
   "main": "dist/index.js",
+  "module": "esm/index.js",
   "scripts": {
     "build": "rollup -c",
     "prepare": "npm run build"

@@ -1,16 +1,15 @@
 import {
-  getAnimation,
   createStyles,
   createElement,
   requestAnimationFrame,
-  cancelAnimationFrame
-} from './compat'
+  cancelAnimationFrame,
+  getRenderInfo
+} from './util'
 
 import triggerStyles from './triggers.css'
 
 let total = 0
 let style = null
-const ANIM_NAME = 'resize-attach'
 
 export function addListener (elem, callback) {
   if (elem.attachEvent) {
@@ -30,12 +29,25 @@ export function addListener (elem, callback) {
       elem.__resize_observer__ = ro
     } else {
       if (!total) {
-        style = prepareStyles()
+        style = createStyles(triggerStyles)
       }
       initTriggers(elem)
+
+      elem.__resize_rendered__ = getRenderInfo(elem).rendered
+      if (window.MutationObserver) {
+        elem.__resize_mutation_handler__ = handleMutation.bind(elem)
+        let mo = new MutationObserver(elem.__resize_mutation_handler__)
+        mo.observe(document, {
+          attributes: true,
+          childList: true,
+          characterData: true,
+          subtree: true
+        })
+        elem.__resize_mutation_observer__ = mo
+      } else {
+        document.addEventListener('DOMSubtreeModified', elem.__resize_mutation_handler__)
+      }
     }
-    // for browsers that support animation, skip first scrollEvent
-    elem.__resize_skip___ = !!getAnimation()
   }
 
   elem.__resize_listeners__.push(callback)
@@ -56,6 +68,11 @@ export function removeListener (elem, callback) {
       elem.__resize_observer__.unobserve(elem)
       elem.__resize_observer__ = null
     } else {
+      if (elem.__resize_mutation_observer__) {
+        elem.__resize_mutation_observer__.unobserve(elem)
+      } else if (elem.__resize_mutation_handler__) {
+        document.removeEventListener('DOMSubtreeModified', elem.__resize_mutation_handler__)
+      }
       elem.removeEventListener('scroll', callback)
       elem.removeChild(elem.__resize_triggers__.triggers)
       elem.__resize_triggers__ = null
@@ -68,9 +85,29 @@ export function removeListener (elem, callback) {
   }
 }
 
-function checkTriggers (elem) {
+function getUpdatedSize (elem) {
   let { width, height } = elem.__resize_last__
-  return elem.offsetWidth !== width || elem.offsetHeight !== height
+  let { offsetWidth, offsetHeight } = elem
+  if (offsetWidth !== width || offsetHeight !== height) {
+    return {
+      width: offsetWidth,
+      height: offsetHeight
+    }
+  }
+  return null
+}
+
+function handleMutation () {
+  // `this` denotes the scrolling element
+  let { rendered, detached } = getRenderInfo(this)
+  if (rendered !== this.__resize_rendered__) {
+    if (!detached) {
+      resetTriggers(this)
+      this.addEventListener('scroll', handleScroll, true)
+    }
+    this.__resize_rendered__ = rendered
+    runCallbacks(this)
+  }
 }
 
 function handleScroll () {
@@ -80,36 +117,18 @@ function handleScroll () {
     cancelAnimationFrame(this.__resize_raf__)
   }
   this.__resize_raf__ = requestAnimationFrame(() => {
-    if (checkTriggers(this)) {
-      this.__resize_last__.width = this.offsetWidth
-      this.__resize_last__.height = this.offsetHeight
+    let updated = getUpdatedSize(this)
+    if (updated) {
+      this.__resize_last__ = updated
       runCallbacks(this)
     }
   })
 }
 
 function runCallbacks (elem) {
-  if (elem.__resize_skip___) {
-    elem.__resize_skip___ = false
-    return
-  }
   elem.__resize_listeners__.forEach(callback => {
     callback.call(elem)
   })
-}
-
-function prepareStyles () {
-  let animation = getAnimation()
-  let styleText = ''
-
-  if (animation) {
-    let { property, keyframes } = animation
-    styleText = `@${keyframes} ${ANIM_NAME}{0%:{opacity:0;}to:{opacity:0}}.resize-triggers{${property}:1ms ${ANIM_NAME}}`
-  }
-
-  styleText += triggerStyles
-
-  return createStyles(styleText)
 }
 
 function initTriggers (elem) {
@@ -144,26 +163,26 @@ function initTriggers (elem) {
   }
 
   resetTriggers(elem)
-
   elem.addEventListener('scroll', handleScroll, true)
 
-  let { startEvent } = getAnimation() || {}
-  if (startEvent) {
-    triggers.addEventListener(startEvent, ({ animationName }) => {
-      if (animationName === ANIM_NAME) {
-        resetTriggers(elem)
-      }
-    })
+  elem.__resize_last__ = {
+    width: elem.offsetWidth,
+    height: elem.offsetHeight
   }
 }
 
 function resetTriggers (elem) {
   let { expand, expandChild, contract } = elem.__resize_triggers__
 
-  contract.scrollLeft = contract.scrollWidth
-  contract.scrollTop = contract.scrollHeight
-  expandChild.style.width = expand.offsetWidth + 1 + 'px'
-  expandChild.style.height = expand.offsetHeight + 1 + 'px'
-  expand.scrollLeft = expand.scrollWidth
-  expand.scrollTop = expand.scrollHeight
+  // batch read
+  let { scrollWidth: csw, scrollHeight: csh } = contract
+  let { offsetWidth: eow, offsetHeight: eoh, scrollWidth: esw, scrollHeight: esh } = expand
+
+  // batch write
+  contract.scrollLeft = csw
+  contract.scrollTop = csh
+  expandChild.style.width = eow + 1 + 'px'
+  expandChild.style.height = eoh + 1 + 'px'
+  expand.scrollLeft = esw
+  expand.scrollTop = esh
 }
