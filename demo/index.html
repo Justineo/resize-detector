@@ -29,7 +29,7 @@ html {
   text-align: center;
   background: #eee;
   cursor: pointer;
-  transition: width 2s;
+  transition: width 2s, background-color .3s;
 }
 
 #pusher:hover {
@@ -38,6 +38,7 @@ html {
 
 :checked + #pusher {
   width: 400px;
+  background: #eec;
 }
 
 #el {
@@ -47,7 +48,8 @@ html {
   background: #9ca;
   line-height: 100px;
   text-align: center;
-  color: #fff
+  color: #fff;
+  font-weight: 700;
 }
 </style>
 </head>
@@ -57,9 +59,8 @@ html {
 <pre id="output">-</pre>
 <div id="container">
   <input id="push" type="checkbox" style="display: none">
-  <label id="pusher" for="push">Hover or Click
-  </label>
-  <div id="el">Resize Detector Enabled</div>
+  <label id="pusher" for="push">Hover or Click</label>
+  <div id="el">&rarr; Resize Detector Enabled &larr;</div>
 </div>
 <script src="../dist/index.js"></script>
 <script>
