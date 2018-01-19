@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Resize Detector</title>
+<style>
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 12px;
+  color: #999;
+}
+
+#container {
+  width: 600px;
+}
+
+#pusher {
+  float: left;
+  width: 100px;
+  height: 100px;
+  line-height: 100px;
+  text-align: center;
+  background: #eee;
+  cursor: pointer;
+  transition: width 2s;
+}
+
+#pusher:hover {
+  width: 300px;
+}
+
+:checked + #pusher {
+  width: 400px;
+}
+
+#el {
+  position: relative;
+  overflow: hidden;
+  height: 100px;
+  background: #9ca;
+  line-height: 100px;
+  text-align: center;
+  color: #fff
+}
+</style>
+</head>
+<body>
+  <p><label id="attach"><input type="checkbox" checked> Attached</button></label></p>
+  <p><label id="display"><input type="checkbox"><code>display: none</code></label></p>
+<pre id="output">-</pre>
+<div id="container">
+  <input id="push" type="checkbox" style="display: none">
+  <label id="pusher" for="push">Hover or Click
+  </label>
+  <div id="el">Resize Detector Enabled</div>
+</div>
+<script src="../dist/index.js"></script>
+<script>
+var el = document.getElementById('el')
+var container = document.getElementById('container')
+var attach = document.getElementById('attach')
+var display = document.getElementById('display')
+var output = document.getElementById('output')
+
+console.log('HERE')
+
+resizeDetector.addListener(el, function () {
+  output.innerHTML = el.offsetWidth + '×' + el.offsetHeight
+})
+
+attach.addEventListener('change', function () {
+  var input = attach.firstElementChild
+  if (input.checked) {
+    container.appendChild(el)
+  } else {
+    container.removeChild(el)
+  }
+})
+
+display.addEventListener('change', function () {
+  var input = display.firstElementChild
+  if (input.checked) {
+    el.style.display = 'none'
+  } else {
+    el.style.display = ''
+  }
+})
+</script>
+</body>
+</html>

@@ -12,9 +12,8 @@ let total = 0
 let style = null
 
 export function addListener (elem, callback) {
-  if (elem.attachEvent) {
-    elem.attachEvent('onresize', callback)
-    return
+  if (!elem.__resize_mutation_handler__) {
+    elem.__resize_mutation_handler__ = handleMutation.bind(elem)
   }
 
   let listeners = elem.__resize_listeners__
@@ -27,6 +26,13 @@ export function addListener (elem, callback) {
       })
       ro.observe(elem)
       elem.__resize_observer__ = ro
+    } else if (elem.attachEvent && elem.addEventListener) {
+      // targeting IE9/10
+      elem.__resize_legacy_resize_handler__ = function handleLegacyResize () {
+        runCallbacks(elem)
+      }
+      elem.attachEvent('onresize', elem.__resize_legacy_resize_handler__)
+      document.addEventListener('DOMSubtreeModified', elem.__resize_mutation_handler__)
     } else {
       if (!total) {
         style = createStyles(triggerStyles)
@@ -35,7 +41,6 @@ export function addListener (elem, callback) {
 
       elem.__resize_rendered__ = getRenderInfo(elem).rendered
       if (window.MutationObserver) {
-        elem.__resize_mutation_handler__ = handleMutation.bind(elem)
         let mo = new MutationObserver(elem.__resize_mutation_handler__)
         mo.observe(document, {
           attributes: true,
@@ -44,8 +49,6 @@ export function addListener (elem, callback) {
           subtree: true
         })
         elem.__resize_mutation_observer__ = mo
-      } else {
-        document.addEventListener('DOMSubtreeModified', elem.__resize_mutation_handler__)
       }
     }
   }
@@ -55,8 +58,10 @@ export function addListener (elem, callback) {
 }
 
 export function removeListener (elem, callback) {
-  if (elem.detachEvent) {
-    elem.detachEvent('onresize', callback)
+  // targeting IE9/10
+  if (elem.detachEvent && elem.removeEventListener) {
+    elem.detachEvent('onresize', elem.__resize_legacy_resize_handler__)
+    document.removeEventListener('DOMSubtreeModified', elem.__resize_mutation_handler__)
     return
   }
 
@@ -70,10 +75,8 @@ export function removeListener (elem, callback) {
     } else {
       if (elem.__resize_mutation_observer__) {
         elem.__resize_mutation_observer__.unobserve(elem)
-      } else if (elem.__resize_mutation_handler__) {
-        document.removeEventListener('DOMSubtreeModified', elem.__resize_mutation_handler__)
       }
-      elem.removeEventListener('scroll', callback)
+      elem.removeEventListener('scroll', handleScroll)
       elem.removeChild(elem.__resize_triggers__.triggers)
       elem.__resize_triggers__ = null
       elem.__resize_listeners__ = null
@@ -101,7 +104,7 @@ function handleMutation () {
   // `this` denotes the scrolling element
   let { rendered, detached } = getRenderInfo(this)
   if (rendered !== this.__resize_rendered__) {
-    if (!detached) {
+    if (!detached && this.__resize_triggers__) {
       resetTriggers(this)
       this.addEventListener('scroll', handleScroll, true)
     }
