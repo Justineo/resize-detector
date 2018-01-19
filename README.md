@@ -30,7 +30,7 @@ resizeDetector.removeListener(elem, callback)
 
 ## Limitations and caveats
 
-See [sdecimajavascript-detect-element-resize](#sdecimajavascript-detect-element-resize).
+See [sdecima/javascript-detect-element-resize](#sdecimajavascript-detect-element-resize).
 
 ## Comparison with other projects
 
