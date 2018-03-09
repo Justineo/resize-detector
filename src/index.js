@@ -71,16 +71,18 @@ export function removeListener (elem, callback) {
   if (!listeners.length) {
     if (elem.__resize_observer__) {
       elem.__resize_observer__.unobserve(elem)
+      elem.__resize_observer__.disconnect()
       elem.__resize_observer__ = null
     } else {
       if (elem.__resize_mutation_observer__) {
-        elem.__resize_mutation_observer__.unobserve(elem)
+        elem.__resize_mutation_observer__.disconnect()
+        elem.__resize_mutation_observer__ = null
       }
       elem.removeEventListener('scroll', handleScroll)
       elem.removeChild(elem.__resize_triggers__.triggers)
       elem.__resize_triggers__ = null
-      elem.__resize_listeners__ = null
     }
+    elem.__resize_listeners__ = null
   }
 
   if (!--total && style) {
