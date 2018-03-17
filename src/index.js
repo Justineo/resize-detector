@@ -22,10 +22,15 @@ export function addListener (elem, callback) {
     elem.__resize_listeners__ = []
     if (window.ResizeObserver) {
       let ro = new ResizeObserver(() => {
+        if (!elem.__resize_observer_triggered__) {
+          elem.__resize_observer_triggered__ = true
+          return
+        }
         runCallbacks(elem)
       })
-      ro.observe(elem)
+      elem.__resize_observer_triggered = false
       elem.__resize_observer__ = ro
+      ro.observe(elem)
     } else if (elem.attachEvent && elem.addEventListener) {
       // targeting IE9/10
       elem.__resize_legacy_resize_handler__ = function handleLegacyResize () {
