@@ -18,13 +18,13 @@ $ npm i --save resize-detector
 ## Usage
 
 ```js
-import resizeDetector from 'resize-detector'
+import { addListener, removeListener } from 'resize-detector'
 
 // adding listener
-resizeDetector.addListener(elem, callback)
+addListener(elem, callback)
 
 // removing listener
-resizeDetector.removeListener(elem, callback)
+removeListener(elem, callback)
 ```
 
 *`this` inside `callback` function is the element whose size has been changed.*
