@@ -1,6 +1,6 @@
 {
   "name": "resize-detector",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Element resize detection, both modern way and cross browser.",
   "main": "dist/index.js",
   "module": "esm/index.js",

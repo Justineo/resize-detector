@@ -28,7 +28,10 @@ export function addListener (elem, callback) {
         }
         runCallbacks(elem)
       })
-      elem.__resize_observer_triggered = false
+
+      // initially display none won't trigger ResizeObserver callback
+      let { detached, rendered } = getRenderInfo(elem)
+      elem.__resize_observer_triggered__ = detached === false && rendered === false
       elem.__resize_observer__ = ro
       ro.observe(elem)
     } else if (elem.attachEvent && elem.addEventListener) {
