@@ -21,10 +21,13 @@ export function addListener (elem, callback) {
   if (!listeners) {
     elem.__resize_listeners__ = []
     if (window.ResizeObserver) {
+      let { offsetWidth, offsetHeight } = elem
       let ro = new ResizeObserver(() => {
         if (!elem.__resize_observer_triggered__) {
           elem.__resize_observer_triggered__ = true
-          return
+          if (elem.offsetWidth === offsetWidth && elem.offsetHeight === offsetHeight) {
+            return
+          }
         }
         runCallbacks(elem)
       })

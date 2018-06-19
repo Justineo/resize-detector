@@ -1,6 +1,10 @@
+## 0.1.7
+
+* Add initial size diff for `ResizeObserver`.
+
 ## 0.1.6
 
-* When attaching ResizeObserver, do not skip first callback for initially hidden elements.
+* When attaching `ResizeObserver`, do not skip first callback for initially hidden elements.
 
 ## 0.1.5
 
