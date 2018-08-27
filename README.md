@@ -29,6 +29,30 @@ removeListener(elem, callback)
 
 *`this` inside `callback` function is the element whose size has been changed.*
 
+### Heads up
+
+As `resize-detector` is published in both ES Module & CommonJS format and when you use webpack to bundle your app, the ESM version will be imported. It is not transpiled by Babel or similar tools so you have to transpile it in your build process.
+
+For webpack with babe-loader you need to add it to the `include` field of the options:
+
+```js
+// ...
+{
+  test: /\.js$/,
+  loader: 'babel-loader',
+  include: [
+    // other stuff to be transpiled
+    // ...
+    path.resolve('node_modules/resize-detector')
+  ]
+}
+// ...
+```
+
+If you are using other toolchain, just configure your bundler similarly so that `resize-detector` will be transpiled during build process.
+
+---
+
 ## Limitations and caveats
 
 - **Is polyfill?**

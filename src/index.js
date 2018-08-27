@@ -78,6 +78,9 @@ export function removeListener (elem, callback) {
   }
 
   let listeners = elem.__resize_listeners__
+  if (!listeners) {
+    return
+  }
   listeners.splice(listeners.indexOf(callback), 1)
 
   if (!listeners.length) {
