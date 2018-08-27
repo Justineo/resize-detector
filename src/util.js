@@ -50,6 +50,17 @@ export function createElement (tagName, props = {}) {
   return elem
 }
 
+export function getComputedStyle (elem, prop, pseudo) {
+  // for older versions of Firefox, `getComputedStyle` required
+  // the second argument and may return `null` for some elements
+  // when `display: none`
+  let computedStyle = window.getComputedStyle(elem, pseudo || null) || {
+    display: 'none'
+  }
+
+  return computedStyle[prop]
+}
+
 export function getRenderInfo (elem) {
   if (!document.documentElement.contains(elem)) {
     return {
@@ -60,7 +71,7 @@ export function getRenderInfo (elem) {
 
   let current = elem
   while (current !== document) {
-    if (getComputedStyle(current).display === 'none') {
+    if (getComputedStyle(current, 'display') === 'none') {
       return {
         detached: false,
         rendered: false

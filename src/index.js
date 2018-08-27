@@ -3,6 +3,7 @@ import {
   createElement,
   requestAnimationFrame,
   cancelAnimationFrame,
+  getComputedStyle,
   getRenderInfo
 } from './util'
 
@@ -148,8 +149,8 @@ function runCallbacks (elem) {
 }
 
 function initTriggers (elem) {
-  let position = getComputedStyle(elem).position
-  if (position === 'static') {
+  let position = getComputedStyle(elem, 'position')
+  if (!position || position === 'static') {
     elem.style.position = 'relative'
   }
 

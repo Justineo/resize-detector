@@ -1,3 +1,7 @@
+## 0.1.8
+
+* Fix compatibility issue for `getComputedStyle` in older versions of Firefox.
+
 ## 0.1.7
 
 * Add initial size diff for `ResizeObserver`.
