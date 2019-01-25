@@ -1,3 +1,11 @@
+## 0.1.10
+
+* Check for listeners before running callbacks.
+
+## 0.1.9
+
+* Check for listeners before destroy.
+
 ## 0.1.8
 
 * Fix compatibility issue for `getComputedStyle` in older versions of Firefox.
