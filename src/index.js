@@ -146,6 +146,9 @@ function handleScroll () {
 }
 
 function runCallbacks (elem) {
+  if (!elem || !elem.__resize_listeners__) {
+    return
+  }
   elem.__resize_listeners__.forEach(callback => {
     callback.call(elem)
   })
