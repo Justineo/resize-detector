@@ -1,3 +1,8 @@
+## 0.2.0
+
+* Support removing listeners without callbacks to remove all listeners on an element.
+* Fix removing listeners in IE.
+
 ## 0.1.10
 
 * Check for listeners before running callbacks.

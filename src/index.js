@@ -70,20 +70,24 @@ export function addListener (elem, callback) {
 }
 
 export function removeListener (elem, callback) {
-  // targeting IE9/10
-  if (elem.detachEvent && elem.removeEventListener) {
-    elem.detachEvent('onresize', elem.__resize_legacy_resize_handler__)
-    document.removeEventListener('DOMSubtreeModified', elem.__resize_mutation_handler__)
-    return
-  }
-
   let listeners = elem.__resize_listeners__
   if (!listeners) {
     return
   }
-  listeners.splice(listeners.indexOf(callback), 1)
 
-  if (!listeners.length) {
+  if (callback) {
+    listeners.splice(listeners.indexOf(callback), 1)
+  }
+
+  // no listeners exist, or removing all listeners
+  if (!listeners.length || !callback) {
+    // targeting IE9/10
+    if (elem.detachEvent && elem.removeEventListener) {
+      elem.detachEvent('onresize', elem.__resize_legacy_resize_handler__)
+      document.removeEventListener('DOMSubtreeModified', elem.__resize_mutation_handler__)
+      return
+    }
+
     if (elem.__resize_observer__) {
       elem.__resize_observer__.unobserve(elem)
       elem.__resize_observer__.disconnect()

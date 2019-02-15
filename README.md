@@ -23,7 +23,8 @@ import { addListener, removeListener } from 'resize-detector'
 // adding listener
 addListener(elem, callback)
 
-// removing listener
+// removing listener, callback can be omitted to indicate that
+// all event listeners should be removed
 removeListener(elem, callback)
 ```
 

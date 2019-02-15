@@ -1,6 +1,6 @@
 {
   "name": "resize-detector",
-  "version": "0.1.10",
+  "version": "0.2.0",
   "description": "Element resize detection, both modern way and cross browser.",
   "main": "dist/index.js",
   "module": "esm/index.js",
@@ -15,6 +15,7 @@
   ],
   "author": "Justineo (justice360@gmail.com)",
   "license": "MIT",
+  "repository": "Justineo/resize-detector",
   "devDependencies": {
     "babel-eslint": "^8.2.6",
     "cssnano": "^3.10.0",
