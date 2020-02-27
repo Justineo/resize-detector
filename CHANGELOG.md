@@ -1,3 +1,7 @@
+## 0.2.1
+
+* Callback now receives the target element as the first argument.
+
 ## 0.2.0
 
 * Support removing listeners without callbacks to remove all listeners on an element.

@@ -1,6 +1,6 @@
 {
   "name": "resize-detector",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Element resize detection, both modern way and cross browser.",
   "main": "dist/index.js",
   "module": "esm/index.js",
@@ -17,18 +17,17 @@
   "license": "MIT",
   "repository": "Justineo/resize-detector",
   "devDependencies": {
+    "@rollup/plugin-buble": "^0.21.1",
     "babel-eslint": "^8.2.6",
-    "cssnano": "^3.10.0",
     "eslint": "^4.19.1",
     "eslint-config-standard": "^11.0.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-node": "^5.2.1",
     "eslint-plugin-promise": "^3.8.0",
     "eslint-plugin-standard": "^3.1.0",
-    "rollup": "^0.54.1",
-    "rollup-plugin-buble": "^0.18.0",
-    "rollup-plugin-postcss": "^1.6.2",
-    "rollup-plugin-uglify": "^2.0.1"
+    "rollup": "^1.31.1",
+    "rollup-plugin-postcss": "^2.1.1",
+    "rollup-plugin-terser": "^5.2.0"
   },
   "dependencies": {}
 }

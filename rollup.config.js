@@ -1,7 +1,6 @@
 import postcss from 'rollup-plugin-postcss'
-import cssnano from 'cssnano'
-import buble from 'rollup-plugin-buble'
-import uglify from 'rollup-plugin-uglify'
+import buble from '@rollup/plugin-buble'
+import { terser } from 'rollup-plugin-terser'
 
 export default [
   {
@@ -14,12 +13,10 @@ export default [
     plugins: [
       postcss({
         inject: false,
-        plugins: [cssnano({
-          preset: 'default'
-        })]
+        minimize: true
       }),
       buble(),
-      uglify()
+      terser()
     ]
   },
   {
@@ -31,9 +28,7 @@ export default [
     plugins: [
       postcss({
         inject: false,
-        plugins: [cssnano({
-          preset: 'default'
-        })]
+        minimize: true
       })
     ]
   }
