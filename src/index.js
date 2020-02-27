@@ -150,7 +150,7 @@ function runCallbacks (elem) {
     return
   }
   elem.__resize_listeners__.forEach(callback => {
-    callback.call(elem)
+    callback.call(elem, elem)
   })
 }
 

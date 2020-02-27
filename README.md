@@ -27,7 +27,7 @@ addListener(elem, callback)
 removeListener(elem, callback)
 ```
 
-*`this` inside `callback` function is the element whose size has been changed.*
+*`this` inside `callback` function is the element whose size has been changed, also `callback` receive element as first argument.*
 
 ### Heads up
 
