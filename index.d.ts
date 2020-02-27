@@ -1,8 +1,9 @@
 declare namespace resizeDetector {
+  type ResizeCallback<E extends HTMLElement = HTMLElement> = (this: E, element: E) => void;
 
-  function addListener(elem: HTMLElement, callback: Function): void;
+  function addListener<E extends HTMLElement = HTMLElement>(elem: E, callback: ResizeCallback<E>): void;
 
-  function removeListener(elem: HTMLElement, callback: Function): void;
+  function removeListener<E extends HTMLElement = HTMLElement>(elem: E, callback: ResizeCallback<E>): void;
 
 }
 
