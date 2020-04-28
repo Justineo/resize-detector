@@ -1,3 +1,7 @@
+## 0.2.2
+
+* Stop resize triggers from triggering pointer events.
+
 ## 0.2.1
 
 * Callback now receives the target element as the first argument.
