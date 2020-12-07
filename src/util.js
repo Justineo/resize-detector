@@ -62,7 +62,7 @@ export function getComputedStyle (elem, prop, pseudo) {
 }
 
 export function getRenderInfo (elem) {
-  if (!document.documentElement.contains(elem)) {
+  if (!document || !document.documentElement.contains(elem)) {
     return {
       detached: true,
       rendered: false
