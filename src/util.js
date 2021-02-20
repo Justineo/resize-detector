@@ -31,7 +31,6 @@ export function cancelAnimationFrame (id) {
 
 export function createStyles (styleText) {
   var style = document.createElement('style')
-  style.type = 'text/css'
 
   if (style.styleSheet) {
     style.styleSheet.cssText = styleText
