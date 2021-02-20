@@ -1,3 +1,8 @@
+## 0.3.0
+
+* Run through buble for ESM output.
+* Update deps.
+
 ## 0.2.2
 
 * Stop resize triggers from triggering pointer events.

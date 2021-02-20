@@ -29,7 +29,8 @@ export default [
       postcss({
         inject: false,
         minimize: true
-      })
+      }),
+      buble()
     ]
   }
 ]
