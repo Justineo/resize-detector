@@ -17,7 +17,7 @@
   "license": "MIT",
   "repository": "Justineo/resize-detector",
   "devDependencies": {
-    "@rollup/plugin-buble": "^0.21.3",
+    "@rollup/plugin-buble": "^1.0.0",
     "babel-eslint": "^8.2.6",
     "eslint": "^4.19.1",
     "eslint-config-standard": "^11.0.0",
